@@ -1,7 +1,7 @@
 {
 	"manifest_version": 2,
 	"name": "Vulcan",
-	"version": "1.0.3",
+	"version": "1.0.4",
 	"description": "Convert emoticons in Google Hangouts to their text equivalent.",
 	"icons": {
 		"16": "images/16.png",

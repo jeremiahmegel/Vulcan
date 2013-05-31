@@ -42,7 +42,7 @@ along with Vulcan. If not, see <http://www.gnu.org/licenses/>.
 	([data-emo="😽"] ):not ([data-emo="😾"] ):not ([data-emo="😿"] ):not ([data-emo="🙀"]
 	):not ([data-emo="🙅"] ):not ([data-emo="🙆"] ):not ([data-emo="🙇"] ):not
 	([data-emo="🙋"] ):not ([data-emo="🙌"] ):not ([data-emo="🙍"] ):not ([data-emo="🙎"]
-	):not ([data-emo="🙏"] ):not ([data-emo="💙"] )>div {
+	):not ([data-emo="🙏"] ):not ([data-emo="💜"] )>div {
 	display: inline-block !important;
 }
 
@@ -342,6 +342,6 @@ along with Vulcan. If not, see <http://www.gnu.org/licenses/>.
 	content: "[-o<";
 }
 
-[data-emo="💙"]:after {
+[data-emo="💜"]:after {
 	content: "<3";
 }
