@@ -1,0 +1,46 @@
+@charset "UTF-8";
+
+.emoList {
+	background-color: lightgray;
+	border-radius: 20px;
+	margin: 20px auto;
+	padding: 10px;
+	text-align: center;
+	width: 550px;
+}
+
+.emoItem {
+	background-color: #ffffff;
+	border-radius: 10px;
+	display: inline-block;
+	margin: 2px;
+	text-align: center;
+	width: 100px;
+}
+
+.emoChoiceCon {
+	display: block;
+}
+
+.emoItem input[type="radio"] {
+	float: left;
+}
+
+.emoImage {
+	background-repeat: no-repeat;
+	background-image: url(../images/options/emoticons.png);
+	display: inline-block;
+	height: 28px;
+	width: 28px;
+}
+
+.emoUni {
+	font-size: 13px;
+}
+
+.emoCustom {
+	border: 1px solid;
+	font-size: 13px;
+	text-align: center;
+	width: 50px;
+}

@@ -16,7 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Vulcan. If not, see <http://www.gnu.org/licenses/>.
 */
-
+/*
 *[data-emo]>div {
 	display: none !important;
 }
@@ -344,4 +344,4 @@ along with Vulcan. If not, see <http://www.gnu.org/licenses/>.
 
 [data-emo="💜"]:after {
 	content: "<3";
-}
+}*/
