@@ -25,9 +25,10 @@
 	],
 	"background": {
 		"scripts": [
+			"javascript/initialize.js",
 			"javascript/background.js"
 		],
-		"persistent": false
+		"persistent": true
 	},
 	"options_page": "html/options.html"
 }

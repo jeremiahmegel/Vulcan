@@ -1,12 +1,29 @@
 @charset "UTF-8";
 
+body {
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+#saved {
+	background-color: lightgreen;
+	display: block;
+	position: fixed;
+	top: 10px;
+	right: 10px;
+	font-size: 20px;
+	opacity: 0;
+	-webkit-transition: opacity 0.5s;
+	padding: 5px;
+	border-radius: 5px;
+}
+
 .emoList {
 	background-color: lightgray;
 	border-radius: 20px;
 	margin: 20px auto;
 	padding: 10px;
 	text-align: center;
-	width: 550px;
+	width: 520px;
 }
 
 .emoItem {
@@ -20,6 +37,7 @@
 
 .emoChoiceCon {
 	display: block;
+	border-radius: 10px;
 }
 
 .emoItem input[type="radio"] {
@@ -43,4 +61,5 @@
 	font-size: 13px;
 	text-align: center;
 	width: 50px;
+	border-radius: 3px;
 }

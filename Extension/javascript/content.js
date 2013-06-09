@@ -15,10 +15,18 @@
     along with Vulcan. If not, see <http://www.gnu.org/licenses/>.
 */
 
-chrome.runtime.sendMessage("getJSON", function(response) {
-	var css = response;
-	var style = document.createElement("style");
-	style.setAttribute("type", "text/css");
-	style.innerHTML = css;
-	document.head.appendChild(style);
+var style = document.createElement("style");
+style.setAttribute("type", "text/css");
+document.head.appendChild(style);
+
+var extPort = chrome.runtime.connect({name: "emoPage"});
+
+/*chrome.runtime.sendMessage("getCSS", function(response) {
+	style.innerHTML = response.data;
+});*/
+
+extPort.onMessage.addListener(function(request, sender, respond) {
+	if (request.type = "css") {
+		style.innerHTML = request.data;
+	}
 });

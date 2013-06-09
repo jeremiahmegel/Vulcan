@@ -15,6 +15,8 @@
     along with Vulcan. If not, see <http://www.gnu.org/licenses/>.
 */
 
+var saveTimeout;
+
 var emoticons = JSON.parse(localStorage["json"]);
 
 var emoList = document.createElement("div");
@@ -67,20 +69,42 @@ for (var x in emoticons) {
 			radios[r].setAttribute("name", "type-"+y);
 			if ((emoticons[x][y].type == radios[r].getAttribute("value")) || ((!emoticons[x][y].type) & (radios[r].getAttribute("value") == "image"))) {
 				radios[r].setAttribute("checked", "checked");
+				radios[r].parentNode.style.backgroundColor = "green";
 			}
 			radios[r].addEventListener("change", saveEmos);
+			radios[r].addEventListener("change", function(){
+				var theseSpans = this.parentNode.parentNode.getElementsByClassName("emoChoiceCon");
+				for (var s = 0; s < theseSpans.length; s++) {
+					if (theseSpans[s].getElementsByTagName("input")[0].checked) {
+						theseSpans[s].style.backgroundColor = "green";
+					}
+					else {
+						theseSpans[s].style.backgroundColor = "white";
+					}
+				}
+			});
 		}
 		newItem.getElementsByClassName("emoCustom")[0].setAttribute("name", "custom-"+y);
 		if (emoticons[x][y].custom) {
 			newItem.getElementsByClassName("emoCustom")[0].setAttribute("value", emoticons[x][y].custom);
 		}
+		newItem.getElementsByClassName("emoCustom")[0].addEventListener("change", saveEmos);
+		newItem.getElementsByClassName("emoCustom")[0].addEventListener("keyup", saveEmos);
 		newList.appendChild(newItem);
 	}
 	document.getElementById("main").appendChild(newList);
 }
 
 function saveEmos() {
+	if (saveTimeout) {
+		clearTimeout(saveTimeout);
+	}
+	saveTimeout = setTimeout(reallySaveEmos, 3000);
+}
+
+function reallySaveEmos() {
 	var newEmoticons = [];
+	var css = ["[data-emo]", "", "button>[data-emo]:after{height:28px;width:31px;}"];
 	for (var l in emoticons) {
 		newEmoticons[l] = {};
 		for (var e in emoticons[l]) {
@@ -93,8 +117,23 @@ function saveEmos() {
 				}
 			}
 			newEmoticons[l][e].custom = document.getElementsByName("custom-"+e)[0].value;
+			if (newEmoticons[l][e].type == "image") {
+				css[0] += ":not([data-emo=\""+e+"\"])";
+			}
+			else {
+				css[1] += "[data-emo=\""+e+"\"]:after{content:\""+String((newEmoticons[l][e].type == "custom")?(newEmoticons[l][e].custom):(e)).replace(/\"/g, "\\\"")+"\";display:inline-block;}\n";
+			}
 		}
 	}
+	css[0] += ">div{display:none!important;}";
+	var fullCSSStr = css.join("\n");
+	
 	localStorage["json"] = JSON.stringify(newEmoticons);
-	emoticons = newEmoticons;
+	localStorage["css"] = fullCSSStr;
+	chrome.runtime.sendMessage({type: "newCSS", data: fullCSSStr});
+	
+	document.getElementById("saved").style.opacity = "1";
+	setTimeout(function(){
+		document.getElementById("saved").style.opacity = "0";		
+	}, 2500);
 }

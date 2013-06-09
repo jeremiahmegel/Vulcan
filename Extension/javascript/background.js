@@ -15,21 +15,22 @@
     along with Vulcan. If not, see <http://www.gnu.org/licenses/>.
 */
 
+var cssMessage = {type: "css", data: localStorage["css"]};
+var allPorts = new Array();
+
+chrome.runtime.onConnect.addListener(function(emoPort) {
+	if (emoPort.name == "emoPage") {
+		allPorts.push(emoPort);
+		emoPort.postMessage(cssMessage);
+	}
+});
+
 chrome.runtime.onMessage.addListener(function(request, sender, respond) {
-	if (request == "getJSON"){
-		var emoticons = JSON.parse(localStorage["json"]);	
-		var css = ["[data-emo]", ""];
-		for (var l in emoticons) {
-			for (var e in emoticons[l]) {
-				if (emoticons[l][e].type == "image") {
-					css[0] += ":not([data-emo=\""+e+"\"])";
-				}
-				else {
-					css[1] += "[data-emo=\""+e+"\"]:after{content:\""+((emoticons[l][e].type == "custom")?(emoticons[l][e].custom):(e))+"\";display:inline-block;height:28px;width:31px;}\n";
-				}
-			}
+	if (request.type == "newCSS") {
+		cssMessage.data = request.data;
+		for (var p = 0; p < allPorts.length; p++) {
+			console.log(allPorts[p]);
+			console.log(allPorts[p].postMessage(cssMessage));
 		}
-		css[0] += ">div{display:none!important;}";
-		respond(css.join("\n"));
 	}
 });
