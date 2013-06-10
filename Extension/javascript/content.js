@@ -21,10 +21,6 @@ document.head.appendChild(style);
 
 var extPort = chrome.runtime.connect({name: "emoPage"});
 
-/*chrome.runtime.sendMessage("getCSS", function(response) {
-	style.innerHTML = response.data;
-});*/
-
 extPort.onMessage.addListener(function(request, sender, respond) {
 	if (request.type = "css") {
 		style.innerHTML = request.data;

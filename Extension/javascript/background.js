@@ -20,8 +20,12 @@ var allPorts = new Array();
 
 chrome.runtime.onConnect.addListener(function(emoPort) {
 	if (emoPort.name == "emoPage") {
-		allPorts.push(emoPort);
 		emoPort.postMessage(cssMessage);
+		emoPort.onDisconnect.addListener((function (portInd){
+			return function () {
+				allPorts[portInd] = null;
+			}
+		})(allPorts.push(emoPort)-1));
 	}
 });
 
@@ -29,8 +33,9 @@ chrome.runtime.onMessage.addListener(function(request, sender, respond) {
 	if (request.type == "newCSS") {
 		cssMessage.data = request.data;
 		for (var p = 0; p < allPorts.length; p++) {
-			console.log(allPorts[p]);
-			console.log(allPorts[p].postMessage(cssMessage));
+			if (allPorts[p]) {
+				allPorts[p].postMessage(cssMessage);
+			}
 		}
 	}
 });
