@@ -104,7 +104,7 @@ function saveEmos() {
 
 function reallySaveEmos() {
 	var newEmoticons = [];
-	var css = ["[data-emo]", "", "button>[data-emo]:after{height:28px;width:31px;}"];
+	var css = [":not(button)>[data-emo]", ""];
 	for (var l in emoticons) {
 		newEmoticons[l] = {};
 		for (var e in emoticons[l]) {
@@ -121,7 +121,7 @@ function reallySaveEmos() {
 				css[0] += ":not([data-emo=\""+e+"\"])";
 			}
 			else {
-				css[1] += "[data-emo=\""+e+"\"]:after{content:\""+String((newEmoticons[l][e].type == "custom")?(newEmoticons[l][e].custom):(e)).replace(/\"/g, "\\\"")+"\";display:inline-block;}\n";
+				css[1] += ":not(button)>[data-emo=\""+e+"\"]:after{content:\""+String((newEmoticons[l][e].type == "custom")?(newEmoticons[l][e].custom):(e)).replace(/\"/g, "\\\"")+"\";display:inline-block;}\n";
 			}
 		}
 	}

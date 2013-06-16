@@ -20,6 +20,9 @@
 			"all_frames": true,
 			"js": [
 				"javascript/content.js"
+			],
+			"css": [
+				"css/content.css"
 			]
 		}
 	],

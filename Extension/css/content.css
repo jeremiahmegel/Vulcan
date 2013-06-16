@@ -1,347 +1,37 @@
 @charset "UTF-8";
 
 /*
-Copyright Jeremiah Megel 2013
-
-Vulcan is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-Vulcan is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with Vulcan. If not, see <http://www.gnu.org/licenses/>.
+	Copyright Jeremiah Megel 2013
+	
+	Vulcan is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+	
+	Vulcan is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+	
+	You should have received a copy of the GNU General Public License
+	along with Vulcan. If not, see <http://www.gnu.org/licenses/>.
 */
+
 /*
-*[data-emo]>div {
-	display: none !important;
+	Special thanks to David Walsh for this DOM node insertion hack:
+	[http://davidwalsh.name/detect-node-insertion]
+*/
+
+@-webkit-keyframes vulcanTextbox {
+	from {
+		clip: rect(1px, auto, auto, auto);
+	}
+	to {
+		clip: rect(0px, auto, auto, auto);
+	}
+}
+
+[role="textbox"] {
+	-webkit-animation-duration: 0.001s;
+	-webkit-animation-name: vulcanTextbox;
 }
-
-*[data-emo]:not ([data-emo="☺"] ):not ([data-emo="😀"] ):not ([data-emo="😁"]
-	):not ([data-emo="😂"] ):not ([data-emo="😃"] ):not ([data-emo="😄"] ):not
-	([data-emo="😅"] ):not ([data-emo="😆"] ):not ([data-emo="😇"] ):not ([data-emo="😈"]
-	):not ([data-emo="😉"] ):not ([data-emo="😊"] ):not ([data-emo="😋"] ):not
-	([data-emo="😌"] ):not ([data-emo="😍"] ):not ([data-emo="😎"] ):not ([data-emo="😏"]
-	):not ([data-emo="😐"] ):not ([data-emo="😑"] ):not ([data-emo="😒"] ):not
-	([data-emo="😓"] ):not ([data-emo="😔"] ):not ([data-emo="😕"] ):not ([data-emo="😖"]
-	):not ([data-emo="😗"] ):not ([data-emo="😘"] ):not ([data-emo="😙"] ):not
-	([data-emo="😚"] ):not ([data-emo="😛"] ):not ([data-emo="😜"] ):not ([data-emo="😝"]
-	):not ([data-emo="😞"] ):not ([data-emo="😟"] ):not ([data-emo="😠"] ):not
-	([data-emo="😡"] ):not ([data-emo="😢"] ):not ([data-emo="😣"] ):not ([data-emo="😤"]
-	):not ([data-emo="😥"] ):not ([data-emo="😦"] ):not ([data-emo="😧"] ):not
-	([data-emo="😨"] ):not ([data-emo="😩"] ):not ([data-emo="😪"] ):not ([data-emo="😫"]
-	):not ([data-emo="😬"] ):not ([data-emo="😭"] ):not ([data-emo="😮"] ):not
-	([data-emo="😯"] ):not ([data-emo="😰"] ):not ([data-emo="😱"] ):not ([data-emo="😲"]
-	):not ([data-emo="😳"] ):not ([data-emo="😴"] ):not ([data-emo="😵"] ):not
-	([data-emo="😶"] ):not ([data-emo="😷"] ):not ([data-emo="😸"] ):not ([data-emo="😹"]
-	):not ([data-emo="😺"] ):not ([data-emo="😻"] ):not ([data-emo="😼"] ):not
-	([data-emo="😽"] ):not ([data-emo="😾"] ):not ([data-emo="😿"] ):not ([data-emo="🙀"]
-	):not ([data-emo="🙅"] ):not ([data-emo="🙆"] ):not ([data-emo="🙇"] ):not
-	([data-emo="🙋"] ):not ([data-emo="🙌"] ):not ([data-emo="🙍"] ):not ([data-emo="🙎"]
-	):not ([data-emo="🙏"] ):not ([data-emo="💜"] )>div {
-	display: inline-block !important;
-}
-
-[data-emo="☺"]:after {
-	content: ":)";
-}
-
-[data-emo="😀"]:after {
-	content: ":D";
-}
-
-[data-emo="😁"]:after {
-	content: ":D";
-}
-
-[data-emo="😂"]:after {
-	content: "XD";
-}
-
-[data-emo="😃"]:after {
-	content: ":)";
-}
-
-[data-emo="😄"]:after {
-	content: ":D";
-}
-
-[data-emo="😅"]:after {
-	content: "XD";
-}
-
-[data-emo="😆"]:after {
-	content: "XD";
-}
-
-[data-emo="😇"]:after {
-	content: "0:)";
-}
-
-[data-emo="😈"]:after {
-	content: ">:)";
-}
-
-[data-emo="😉"]:after {
-	content: ";)";
-}
-
-[data-emo="😊"]:after {
-	content: "^_^";
-}
-
-[data-emo="😋"]:after {
-	content: ";P";
-}
-
-[data-emo="😌"]:after {
-	content: ":o";
-}
-
-[data-emo="😍"]:after {
-	content: "❤.❤";
-}
-
-[data-emo="😎"]:after {
-	content: "B-)";
-}
-
-[data-emo="😏"]:after {
-	content: ":)";
-}
-
-[data-emo="😐"]:after {
-	content: ":|";
-}
-
-[data-emo="😑"]:after {
-	content: "-_-";
-}
-
-[data-emo="😒"]:after {
-	content: "¬_¬";
-}
-
-[data-emo="😓"]:after {
-	content: "`:-|";
-}
-
-[data-emo="😔"]:after {
-	content: ":(";
-}
-
-[data-emo="😕"]:after {
-	content: ":/";
-}
-
-[data-emo="😖"]:after {
-	content: ":(";
-}
-
-[data-emo="😗"]:after {
-	content: ":-*";
-}
-
-[data-emo="😘"]:after {
-	content: ":-* ❤";
-}
-
-[data-emo="😙"]:after {
-	content: ":-*";
-}
-
-[data-emo="😚"]:after {
-	content: ":-*";
-}
-
-[data-emo="😛"]:after {
-	content: ":P";
-}
-
-[data-emo="😜"]:after {
-	content: ";P";
-}
-
-[data-emo="😝"]:after {
-	content: ":P";
-}
-
-[data-emo="😞"]:after {
-	content: ":(";
-}
-
-[data-emo="😟"]:after {
-	content: ":(";
-}
-
-[data-emo="😠"]:after {
-	content: "X(";
-}
-
-[data-emo="😡"]:after {
-	content: "X(";
-}
-
-[data-emo="😢"]:after {
-	content: ";(";
-}
-
-[data-emo="😣"]:after {
-	content: ">_<";
-}
-
-[data-emo="😤"]:after {
-	content: "X(";
-}
-
-[data-emo="😥"]:after {
-	content: "T_T";
-}
-
-[data-emo="😦"]:after {
-	content: "D:";
-}
-
-[data-emo="😧"]:after {
-	content: "D;";
-}
-
-[data-emo="😨"]:after {
-	content: "D:";
-}
-
-[data-emo="😩"]:after {
-	content: "T_T";
-}
-
-[data-emo="😪"]:after {
-	content: "|-o";
-}
-
-[data-emo="😫"]:after {
-	content: ">_<";
-}
-
-[data-emo="😬"]:after {
-	content: "DX";
-}
-
-[data-emo="😭"]:after {
-	content: ";>_<;";
-}
-
-[data-emo="😮"]:after {
-	content: "o.O";
-}
-
-[data-emo="😯"]:after {
-	content: ":-!";
-}
-
-[data-emo="😰"]:after {
-	content: "`:o";
-}
-
-[data-emo="😱"]:after {
-	content: ":O";
-}
-
-[data-emo="😲"]:after {
-	content: "O.o";
-}
-
-[data-emo="😳"]:after {
-	content: ":\">";
-}
-
-[data-emo="😴"]:after {
-	content: "-_- Zzz";
-}
-
-[data-emo="😵"]:after {
-	content: "DX";
-}
-
-[data-emo="😶"]:after {
-	content: ":-|";
-}
-
-[data-emo="😷"]:after {
-	content: ":-&";
-}
-
-[data-emo="😸"]:after {
-	content: "=^.^=";
-}
-
-[data-emo="😹"]:after {
-	content: "=^.^=";
-}
-
-[data-emo="😺"]:after {
-	content: "=^_^=";
-}
-
-[data-emo="😻"]:after {
-	content: "=♥w♥=";
-}
-
-[data-emo="😼"]:after {
-	content: "=^_^=";
-}
-
-[data-emo="😽"]:after {
-	content: "=^3^=";
-}
-
-[data-emo="😾"]:after {
-	content: "=`n´=";
-}
-
-[data-emo="😿"]:after {
-	content: "=T_T=";
-}
-
-[data-emo="🙀"]:after {
-	content: "=´o`=";
-}
-
-[data-emo="🙅"]:after {
-	content: "O-&-<";
-}
-
-[data-emo="🙆"]:after {
-	content: "\(^.^)/";
-}
-
-[data-emo="🙇"]:after {
-	content: ">.<";
-}
-
-[data-emo="🙋"]:after {
-	content: "(^_^)/";
-}
-
-[data-emo="🙌"]:after {
-	content: "\(^_^)/";
-}
-
-[data-emo="🙍"]:after {
-	content: "-_-";
-}
-
-[data-emo="🙎"]:after {
-	content: ":-*";
-}
-
-[data-emo="🙏"]:after {
-	content: "[-o<";
-}
-
-[data-emo="💜"]:after {
-	content: "<3";
-}*/
