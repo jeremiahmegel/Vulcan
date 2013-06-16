@@ -54,7 +54,7 @@ document.addEventListener("webkitAnimationStart", function (event) {
 					var prevSib = realEmos[r].previousSibling;
 					while (prevSib) {
 						if (prevSib.tagName != "IMG") {
-							prevLen += prevSib.textContent.replace(nbspRE, "&nbsp;").length;
+							prevLen += prevSib.textContent.replace(nbspRE, "&nbsp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/&/g, "&amp;").length;
 						}
 						else {
 							prevLen += prevSib.outerHTML.length;
@@ -64,7 +64,7 @@ document.addEventListener("webkitAnimationStart", function (event) {
 					var nextSib = realEmos[r].nextSibling;
 					while (nextSib) {
 						if (nextSib.tagName != "IMG") {
-							nextLen += nextSib.textContent.replace(nbspRE, "&nbsp;").length;
+							nextLen += nextSib.textContent.replace(nbspRE, "&nbsp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/&/g, "&amp;").length;
 						}
 						else {
 							nextLen += nextSib.outerHTML.length;
