@@ -24,7 +24,7 @@ var emoList = document.createElement("div");
 
 var emoItem = document.createElement("div");
 	emoItem.setAttribute("class", "emoItem");
-	var emoImageCon = document.createElement("span");
+	var emoImageCon = document.createElement("label");
 		emoImageCon.setAttribute("class", "emoChoiceCon");
 		var emoImageRadio = document.createElement("input");
 			emoImageRadio.setAttribute("class", "emoRadio");
@@ -35,7 +35,7 @@ var emoItem = document.createElement("div");
 			emoImage.setAttribute("class", "emoImage");
 			emoImageCon.appendChild(emoImage);
 		emoItem.appendChild(emoImageCon);
-	var emoUniCon = document.createElement("span");
+	var emoUniCon = document.createElement("label");
 		emoUniCon.setAttribute("class", "emoChoiceCon");
 		var emoUniRadio = document.createElement("input");
 			emoUniRadio.setAttribute("class", "emoRadio");
@@ -46,7 +46,7 @@ var emoItem = document.createElement("div");
 			emoUni.setAttribute("class", "emoUni");
 			emoUniCon.appendChild(emoUni);
 		emoItem.appendChild(emoUniCon);
-	var emoCustomCon = document.createElement("span");
+	var emoCustomCon = document.createElement("label");
 		emoCustomCon.setAttribute("class", "emoChoiceCon");
 		var emoCustomRadio = document.createElement("input");
 			emoCustomRadio.setAttribute("class", "emoRadio");
@@ -55,8 +55,12 @@ var emoItem = document.createElement("div");
 			emoCustomCon.appendChild(emoCustomRadio);
 		var emoCustom = document.createElement("input");
 			emoCustom.setAttribute("class", "emoCustom");
+			emoCustom.setAttribute("type", "text");
 			emoCustomCon.appendChild(emoCustom);
 		emoItem.appendChild(emoCustomCon);
+
+document.getElementById("disableAuto").checked = ((localStorage["disableAuto"]=="true")?"checked":"");
+document.getElementById("disableAuto").addEventListener("change", saveEmos);
 
 for (var x in emoticons) {
 	var newList = emoList.cloneNode(true);
@@ -130,7 +134,8 @@ function reallySaveEmos() {
 	
 	localStorage["json"] = JSON.stringify(newEmoticons);
 	localStorage["css"] = fullCSSStr;
-	chrome.runtime.sendMessage({type: "newCSS", data: fullCSSStr});
+	localStorage["disableAuto"] = document.getElementById("disableAuto").checked;
+	chrome.runtime.sendMessage({type: "newOptions", data: {css: fullCSSStr, disableAuto: document.getElementById("disableAuto").checked}});
 	
 	document.getElementById("saved").style.opacity = "1";
 	setTimeout(function(){

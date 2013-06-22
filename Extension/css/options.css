@@ -23,7 +23,7 @@ body {
 	margin: 20px auto;
 	padding: 10px;
 	text-align: center;
-	width: 520px;
+	max-width: 520px;
 }
 
 .emoItem {

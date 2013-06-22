@@ -15,12 +15,21 @@
     along with Vulcan. If not, see <http://www.gnu.org/licenses/>.
 */
 
-var cssMessage = {type: "css", data: localStorage["css"]};
+var optionsMessage = {type: "options", data: {css: localStorage["css"], disableAuto: (localStorage["disableAuto"]=="true")}};
 var allPorts = new Array();
+
+chrome.tabs.query({url: "*://talkgadget.google.com/*"}, function(hangTabs) {
+	for (var t = 0; t < hangTabs.length; t++) {
+		hangTabs[t].executeScript(hangTabs[t].id, {
+			file: "../javascript/content.js",
+			allFrames: true
+		});
+	}
+});
 
 chrome.runtime.onConnect.addListener(function(emoPort) {
 	if (emoPort.name == "emoPage") {
-		emoPort.postMessage(cssMessage);
+		emoPort.postMessage(optionsMessage);
 		emoPort.onDisconnect.addListener((function (portInd){
 			return function () {
 				allPorts[portInd] = null;
@@ -30,11 +39,11 @@ chrome.runtime.onConnect.addListener(function(emoPort) {
 });
 
 chrome.runtime.onMessage.addListener(function(request, sender, respond) {
-	if (request.type == "newCSS") {
-		cssMessage.data = request.data;
+	if (request.type == "newOptions") {
+		optionsMessage.data = request.data;
 		for (var p = 0; p < allPorts.length; p++) {
 			if (allPorts[p]) {
-				allPorts[p].postMessage(cssMessage);
+				allPorts[p].postMessage(optionsMessage);
 			}
 		}
 	}

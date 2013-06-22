@@ -17,18 +17,40 @@
 
 var style = document.createElement("style");
 style.setAttribute("type", "text/css");
+style.setAttribute("class", "vulcanStyle");
 document.head.appendChild(style);
 
-var extPort = chrome.runtime.connect({name: "emoPage"});
+var disableAuto = false;
 
+var extPort = chrome.runtime.connect({name: "emoPage"});
 extPort.onMessage.addListener(function(request, sender, respond) {
-	if (request.type = "css") {
-		style.innerHTML = request.data;
+	if (request.type = "options") {
+		style.innerHTML = request.data.css;
+		disableAuto = request.data.disableAuto;
 	}
 });
 
 var currentText = "";
 var nbspRE = new RegExp(String.fromCharCode(160), "g");
+
+function sibLen(sib, sibType) {
+	var totalSibLen = 0;
+	while (sib) {
+		if (sib.tagName != "IMG") {
+			totalSibLen += sib.textContent.replace(/&/g, "&amp;").replace(nbspRE, "&nbsp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").length;
+		}
+		else {
+			totalSibLen += sib.outerHTML.length;
+		}
+		if (sibType == "prev") {
+			sib = sib.previousSibling;
+		}
+		else if (sibType == "next") {
+			sib = sib.nextSibling;
+		}
+	}
+	return totalSibLen;
+}
 
 document.addEventListener("webkitAnimationStart", function (event) {
 	if (event.animationName == "vulcanTextbox") {
@@ -49,28 +71,8 @@ document.addEventListener("webkitAnimationStart", function (event) {
 			}
 			else {
 				for (var r = 0; r < realEmos.length; r++) {
-					var prevLen = 0;
-					var nextLen = 0;
-					var prevSib = realEmos[r].previousSibling;
-					while (prevSib) {
-						if (prevSib.tagName != "IMG") {
-							prevLen += prevSib.textContent.replace(nbspRE, "&nbsp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/&/g, "&amp;").length;
-						}
-						else {
-							prevLen += prevSib.outerHTML.length;
-						}
-						prevSib = prevSib.previousSibling;
-					}
-					var nextSib = realEmos[r].nextSibling;
-					while (nextSib) {
-						if (nextSib.tagName != "IMG") {
-							nextLen += nextSib.textContent.replace(nbspRE, "&nbsp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/&/g, "&amp;").length;
-						}
-						else {
-							nextLen += nextSib.outerHTML.length;
-						}
-						nextSib = nextSib.nextSibling;
-					}
+					var prevLen = sibLen(realEmos[r].previousSibling, "prev");
+					var nextLen = sibLen(realEmos[r].nextSibling, "next");
 					this.replaceChild(document.createTextNode(currentText.substr(prevLen, (currentText.length - nextLen - prevLen))), realEmos[r]);
 					setTimeout(function() {
 						currentText = textbox.innerHTML;
@@ -84,19 +86,24 @@ document.addEventListener("webkitAnimationStart", function (event) {
 				inserted.parentNode.removeChild(inserted);
 			}
 			else if (inserted.tagName == "IMG") {
-				inserted.setAttribute("data-vulcanpermitted", "pending");
-				var modNode = textbox.cloneNode(true);
-				var potenImg = modNode.getElementsByTagName("img");
-				for (var i = 0; i < potenImg.length; i++) {
-					if (potenImg[i].getAttribute("data-vulcanpermitted") == "pending") {
-						modNode.removeChild(potenImg[i]);
+				if (disableAuto) {
+					inserted.setAttribute("data-vulcanpermitted", "pending");
+					var modNode = textbox.cloneNode(true);
+					var potenImg = modNode.getElementsByTagName("img");
+					for (var i = 0; i < potenImg.length; i++) {
+						if (potenImg[i].getAttribute("data-vulcanpermitted") == "pending") {
+							modNode.removeChild(potenImg[i]);
+						}
+					}
+					if (modNode.innerHTML == currentText) {
+						inserted.setAttribute("data-vulcanpermitted", "true");
+					}
+					else {
+						inserted.setAttribute("data-vulcanpermitted", "false");
 					}
 				}
-				if (modNode.innerHTML == currentText) {
-					inserted.setAttribute("data-vulcanpermitted", "true");
-				}
 				else {
-					inserted.setAttribute("data-vulcanpermitted", "false");
+					inserted.setAttribute("data-vulcanpermitted", "true");
 				}
 				setTimeout(function() {
 					currentText = textbox.innerHTML;
