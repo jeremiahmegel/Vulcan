@@ -20,7 +20,7 @@ style.setAttribute("type", "text/css");
 style.setAttribute("class", "vulcanStyle");
 document.head.appendChild(style);
 
-var disableAuto = false;
+var disableAuto = true;
 
 var extPort = chrome.runtime.connect({name: "emoPage"});
 extPort.onMessage.addListener(function(request, sender, respond) {

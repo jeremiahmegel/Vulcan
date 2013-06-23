@@ -59,8 +59,40 @@ var emoItem = document.createElement("div");
 			emoCustomCon.appendChild(emoCustom);
 		emoItem.appendChild(emoCustomCon);
 
-document.getElementById("disableAuto").checked = ((localStorage["disableAuto"]=="true")?"checked":"");
+document.getElementById("disableAuto").checked = ((localStorage["disableAuto"]=="false")?"":"checked");
 document.getElementById("disableAuto").addEventListener("change", saveEmos);
+
+var changeEvent = document.createEvent("UIEvents");
+changeEvent.initUIEvent("change", true, true);
+
+document.getElementById("allGraphics").addEventListener("click", function() {
+	updateAll("image", false);
+});
+document.getElementById("allUnicode").addEventListener("click", function() {
+	updateAll("unicode", false);
+});
+document.getElementById("allFilled").addEventListener("click", function() {
+	updateAll("custom", true);
+});
+document.getElementById("allEmpty").addEventListener("click", function() {
+	updateAll("custom", false);
+});
+
+function updateAll(emoType, onlyFilled) {
+	for (var i = 0; i < allItems.length; i++) {
+		var potenLabels = allItems[i].getElementsByTagName("label");
+		for (var l = 0; l < potenLabels.length; l++) {
+			var potenRadio = potenLabels[l].getElementsByTagName("input")[0];
+			if ((potenRadio.getAttribute("value") == emoType) && ((!onlyFilled) || (potenLabels[l].getElementsByTagName("input")[1].value))) {
+				potenRadio.checked = true;
+				potenRadio.dispatchEvent(changeEvent);
+			}
+		}
+	}
+	reallySaveEmos();
+}
+
+var allItems = new Array();
 
 for (var x in emoticons) {
 	var newList = emoList.cloneNode(true);
@@ -76,17 +108,7 @@ for (var x in emoticons) {
 				radios[r].parentNode.style.backgroundColor = "green";
 			}
 			radios[r].addEventListener("change", saveEmos);
-			radios[r].addEventListener("change", function(){
-				var theseSpans = this.parentNode.parentNode.getElementsByClassName("emoChoiceCon");
-				for (var s = 0; s < theseSpans.length; s++) {
-					if (theseSpans[s].getElementsByTagName("input")[0].checked) {
-						theseSpans[s].style.backgroundColor = "green";
-					}
-					else {
-						theseSpans[s].style.backgroundColor = "white";
-					}
-				}
-			});
+			radios[r].addEventListener("change", greenify);
 		}
 		newItem.getElementsByClassName("emoCustom")[0].setAttribute("name", "custom-"+y);
 		if (emoticons[x][y].custom) {
@@ -94,9 +116,22 @@ for (var x in emoticons) {
 		}
 		newItem.getElementsByClassName("emoCustom")[0].addEventListener("change", saveEmos);
 		newItem.getElementsByClassName("emoCustom")[0].addEventListener("keyup", saveEmos);
+		allItems.push(newItem);
 		newList.appendChild(newItem);
 	}
 	document.getElementById("main").appendChild(newList);
+}
+
+function greenify() {
+	var theseSpans = this.parentNode.parentNode.getElementsByClassName("emoChoiceCon");
+	for (var s = 0; s < theseSpans.length; s++) {
+		if (theseSpans[s].getElementsByTagName("input")[0].checked) {
+			theseSpans[s].style.backgroundColor = "green";
+		}
+		else {
+			theseSpans[s].style.backgroundColor = "white";
+		}
+	}
 }
 
 function saveEmos() {

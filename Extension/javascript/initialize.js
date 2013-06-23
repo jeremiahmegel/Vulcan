@@ -235,7 +235,7 @@ if (!localStorage["json"]) {
 		"😝" : {
 			"backgroundPosition" : "-15834",
 			"type" : "custom",
-			"custom" : ":P"
+			"custom" : "XP"
 		},
 		"😋" : {
 			"backgroundPosition" : "-16066",
@@ -360,7 +360,7 @@ if (!localStorage["json"]) {
 		"😸" : {
 			"backgroundPosition" : "-21054",
 			"type" : "custom",
-			"custom" : "=^.^="
+			"custom" : ":3"
 		},
 		"😹" : {
 			"backgroundPosition" : "-1682",
