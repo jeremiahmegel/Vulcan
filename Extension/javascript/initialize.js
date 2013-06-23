@@ -4198,13 +4198,14 @@ if (!localStorage["json"]) {
 		}
 	} ];
 	localStorage["json"] = JSON.stringify(emoticons);
-	var css = ["[data-emo]","","button>[data-emo]:after{height:28px;width:31px;}"];
+	var css = [":not(button)>[data-emo]", ""];
 	for (var l in emoticons) {
 		for (var e in emoticons[l]) {
 			if (emoticons[l][e].type == "image") {
 				css[0] += ":not([data-emo=\""+e+"\"])";
-			} else {
-				css[1] += "[data-emo=\""+e+"\"]:after{content:\""+String((emoticons[l][e].type=="custom")?(emoticons[l][e].custom):(e)).replace(/\"/g,"\\\"")+"\";display:inline-block;}\n";
+			}
+			else {
+				css[1] += ":not(button)>[data-emo=\""+e+"\"]:after{content:\""+String((emoticons[l][e].type == "custom")?(emoticons[l][e].custom):(e)).replace(/\"/g, "\\\"")+"\";display:inline-block;}\n";
 			}
 		}
 	}

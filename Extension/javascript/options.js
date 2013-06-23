@@ -111,7 +111,7 @@ for (var x in emoticons) {
 			radios[r].setAttribute("name", "type-"+y);
 			if ((emoticons[x][y].type == radios[r].getAttribute("value")) || ((!emoticons[x][y].type) & (radios[r].getAttribute("value") == "image"))) {
 				radios[r].setAttribute("checked", "checked");
-				radios[r].parentNode.style.backgroundColor = "green";
+				radios[r].parentNode.style.backgroundColor = "#008000";
 			}
 			radios[r].addEventListener("change", saveEmos);
 			radios[r].addEventListener("change", greenify);
@@ -132,10 +132,10 @@ function greenify() {
 	var theseSpans = this.parentNode.parentNode.getElementsByClassName("emoChoiceCon");
 	for (var s = 0; s < theseSpans.length; s++) {
 		if (theseSpans[s].getElementsByTagName("input")[0].checked) {
-			theseSpans[s].style.backgroundColor = "green";
+			theseSpans[s].style.backgroundColor = "#008000";
 		}
 		else {
-			theseSpans[s].style.backgroundColor = "white";
+			theseSpans[s].style.backgroundColor = "";
 		}
 	}
 }
