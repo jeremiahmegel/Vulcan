@@ -4209,5 +4209,7 @@ if (!localStorage["json"]) {
 		}
 	}
 	css[0] += ">div{display:none!important;}";
-	localStorage["css"] = css.join("\n");
+	var fullCSSStr = css.join("\n");
+	localStorage["css"] = fullCSSStr;
+	chrome.runtime.sendMessage({type: "newOptions", data: {css: fullCSSStr, disableAuto: ((localStorage["disableAuto"] == "false")?false:true)}});
 }

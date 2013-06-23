@@ -60,7 +60,7 @@ var emoItem = document.createElement("div");
 		emoItem.appendChild(emoCustomCon);
 
 document.getElementById("disableAuto").checked = ((localStorage["disableAuto"]=="false")?"":"checked");
-document.getElementById("disableAuto").addEventListener("change", saveEmos);
+document.getElementById("disableAuto").addEventListener("change", reallySaveEmos);
 
 var changeEvent = document.createEvent("UIEvents");
 changeEvent.initUIEvent("change", true, true);
@@ -76,6 +76,12 @@ document.getElementById("allFilled").addEventListener("click", function() {
 });
 document.getElementById("allEmpty").addEventListener("click", function() {
 	updateAll("custom", false);
+});
+document.getElementById("allDefaults").addEventListener("click", function() {
+	if (confirm("Warning! This will reset any and all changes you have made! Do you want to continue?")) {
+		localStorage["json"] = "";
+		window.location.reload();
+	}
 });
 
 function updateAll(emoType, onlyFilled) {
@@ -142,6 +148,7 @@ function saveEmos() {
 }
 
 function reallySaveEmos() {
+	clearTimeout(saveTimeout);
 	var newEmoticons = [];
 	var css = [":not(button)>[data-emo]", ""];
 	for (var l in emoticons) {

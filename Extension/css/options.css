@@ -4,10 +4,6 @@ body {
 	font-family: Arial, Helvetica, sans-serif;
 }
 
-.text, br {
-	font-size: 14px;
-}
-
 #saved {
 	background-color: lightgreen;
 	display: block;
@@ -19,6 +15,11 @@ body {
 	-webkit-transition: opacity 0.5s;
 	padding: 5px;
 	border-radius: 5px;
+}
+
+#thanks {
+	text-align: justify;
+	text-indent: 20px;
 }
 
 .emoList {
@@ -67,4 +68,8 @@ body {
 	text-align: center;
 	width: 50px;
 	border-radius: 3px;
+}
+
+.text, br {
+	font-size: 14px;
 }
