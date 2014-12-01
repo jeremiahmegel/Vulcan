@@ -73,7 +73,7 @@ document.addEventListener("webkitAnimationStart", function (event) {
 				for (var r = 0; r < realEmos.length; r++) {
 					var prevLen = sibLen(realEmos[r].previousSibling, "prev");
 					var nextLen = sibLen(realEmos[r].nextSibling, "next");
-					this.replaceChild(document.createTextNode(currentText.substr(prevLen, (currentText.length - nextLen - prevLen)).replace("&lt;", "<").replace("&gt;", "<").replace("&amp;", "&")), realEmos[r]);
+					this.replaceChild(document.createTextNode(currentText.substr(prevLen, (currentText.length - nextLen - prevLen)).replace("&lt;", "<").replace("&gt;", ">").replace("&amp;", "&")), realEmos[r]);
 					setTimeout(function() {
 						currentText = textbox.innerHTML;
 					}, 1);
