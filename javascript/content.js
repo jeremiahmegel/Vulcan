@@ -20,95 +20,9 @@ style.setAttribute("type", "text/css");
 style.setAttribute("class", "vulcanStyle");
 document.head.appendChild(style);
 
-var disableAuto = true;
-
 var extPort = chrome.runtime.connect({name: "emoPage"});
 extPort.onMessage.addListener(function(request, sender, respond) {
 	if (request.type = "options") {
 		style.innerHTML = request.data.css;
-		disableAuto = request.data.disableAuto;
 	}
 });
-
-var currentText = "";
-var nbspRE = new RegExp(String.fromCharCode(160), "g");
-
-function sibLen(sib, sibType) {
-	var totalSibLen = 0;
-	while (sib) {
-		if (sib.tagName != "IMG") {
-			totalSibLen += sib.textContent.replace(/&/g, "&amp;").replace(nbspRE, "&nbsp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").length;
-		}
-		else {
-			totalSibLen += sib.outerHTML.length;
-		}
-		if (sibType == "prev") {
-			sib = sib.previousSibling;
-		}
-		else if (sibType == "next") {
-			sib = sib.nextSibling;
-		}
-	}
-	return totalSibLen;
-}
-
-document.addEventListener("webkitAnimationStart", function (event) {
-	if (event.animationName == "vulcanTextbox") {
-		var textbox = event.target;
-		currentText = textbox.innerHTML;
-		event.target.addEventListener("keydown", function(subEvent) {
-			var potenEmos = this.getElementsByTagName("img");
-			var realEmos = [];
-			for (var p = 0; p < potenEmos.length; p++) {
-				if (potenEmos[p].getAttribute("data-vulcanpermitted") == "false") {
-					realEmos.push(potenEmos[p]);
-				}
-			}
-			if (realEmos.length == 0) {
-				setTimeout(function() {
-					currentText = textbox.innerHTML;
-				}, 1);
-			}
-			else {
-				for (var r = 0; r < realEmos.length; r++) {
-					var prevLen = sibLen(realEmos[r].previousSibling, "prev");
-					var nextLen = sibLen(realEmos[r].nextSibling, "next");
-					this.replaceChild(document.createTextNode(currentText.substr(prevLen, (currentText.length - nextLen - prevLen)).replace("&lt;", "<").replace("&gt;", ">").replace("&amp;", "&")), realEmos[r]);
-					setTimeout(function() {
-						currentText = textbox.innerHTML;
-					}, 1);
-				}
-			}
-		});
-		event.target.addEventListener("DOMNodeInserted", function(insertEvent) {
-			var inserted = insertEvent.target;
-			if (inserted.tagName == "BR") {
-				inserted.parentNode.removeChild(inserted);
-			}
-			else if (inserted.tagName == "IMG") {
-				if (disableAuto) {
-					inserted.setAttribute("data-vulcanpermitted", "pending");
-					var modNode = textbox.cloneNode(true);
-					var potenImg = modNode.getElementsByTagName("img");
-					for (var i = 0; i < potenImg.length; i++) {
-						if (potenImg[i].getAttribute("data-vulcanpermitted") == "pending") {
-							modNode.removeChild(potenImg[i]);
-						}
-					}
-					if (modNode.innerHTML == currentText) {
-						inserted.setAttribute("data-vulcanpermitted", "true");
-					}
-					else {
-						inserted.setAttribute("data-vulcanpermitted", "false");
-					}
-				}
-				else {
-					inserted.setAttribute("data-vulcanpermitted", "true");
-				}
-				setTimeout(function() {
-					currentText = textbox.innerHTML;
-				}, 1);
-			}
-		}, false);
-	}
-}, false);

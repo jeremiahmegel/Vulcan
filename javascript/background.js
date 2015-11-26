@@ -15,7 +15,7 @@
     along with Vulcan. If not, see <http://www.gnu.org/licenses/>.
 */
 
-var optionsMessage = {type: "options", data: {css: localStorage["css"], disableAuto: (localStorage["disableAuto"]=="true")}};
+var optionsMessage = {type: "options", data: {css: localStorage["css"]}};
 var allPorts = new Array();
 
 chrome.tabs.query({url: "*://talkgadget.google.com/*"}, function(hangTabs) {

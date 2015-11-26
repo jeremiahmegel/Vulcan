@@ -59,9 +59,6 @@ var emoItem = document.createElement("div");
 			emoCustomCon.appendChild(emoCustom);
 		emoItem.appendChild(emoCustomCon);
 
-document.getElementById("disableAuto").checked = ((localStorage["disableAuto"]=="false")?"":"checked");
-document.getElementById("disableAuto").addEventListener("change", reallySaveEmos);
-
 var changeEvent = document.createEvent("UIEvents");
 changeEvent.initUIEvent("change", true, true);
 
@@ -176,8 +173,7 @@ function reallySaveEmos() {
 	
 	localStorage["json"] = JSON.stringify(newEmoticons);
 	localStorage["css"] = fullCSSStr;
-	localStorage["disableAuto"] = document.getElementById("disableAuto").checked;
-	chrome.runtime.sendMessage({type: "newOptions", data: {css: fullCSSStr, disableAuto: document.getElementById("disableAuto").checked}});
+	chrome.runtime.sendMessage({type: "newOptions", data: {css: fullCSSStr}});
 	
 	document.getElementById("saved").style.opacity = "1";
 	setTimeout(function(){
