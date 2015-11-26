@@ -1,7 +1,7 @@
 {
 	"manifest_version": 2,
 	"name": "Vulcan",
-	"version": "2.0.1",
+	"version": "2.0.2",
 	"description": "Convert emoticons in Google Hangouts to their text equivalent.",
 	"icons": {
 		"16": "images/16.png",
@@ -10,12 +10,12 @@
 	},
 	"permissions": [
 		"tabs",
-		"*://talkgadget.google.com/*"
+		"*://hangouts.google.com/*"
 	],
 	"content_scripts": [
 		{
 			"matches": [
-				"*://talkgadget.google.com/*"
+				"*://hangouts.google.com/*"
 			],
 			"all_frames": true,
 			"js": [
